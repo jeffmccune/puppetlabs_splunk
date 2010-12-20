@@ -5,7 +5,10 @@
 
 [install]
 is_configured = true
-state =<% if enable == true then enabled else disabled end -%>
+state = <%= if enable == true
+  then "enabled"
+  else "disabled"
+end %>
 
 [ui]
 is_visible = false

@@ -14,27 +14,25 @@
 # Sample Usage:
 #
 define splunk::index(
-  $targets,
-  $enabled  = true,
+  $target,
+  $enable   = true,
   $index    = 'default',
   $ensure   = present,
-  $basepath = $splunk::user::home,
+  $basepath = $splunk::users::home
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
     fail("ensure must be present or absent")
   }
 
-  if ! ($enable == 'true' or $enable == 'false') {
+  if ! ($enable == true or $enable == false) {
     fail("enable must be true or false")
   }
 
-  require Package['splunk']
-
   file {
     [
-      "${basepath}/apps/puppet_${name}",
-      "${basepath}/apps/puppet_${name}/default",
+      "${basepath}/etc/apps/puppet_${name}",
+      "${basepath}/etc/apps/puppet_${name}/default",
     ]:
       ensure => directory,
       owner  => splunk,
@@ -43,16 +41,16 @@ define splunk::index(
   }
 
   file {
-    "${basepath}/apps/puppet_${name}/default/app.conf":
+    "${basepath}/etc/apps/puppet_${name}/default/app.conf":
       ensure => $ensure,
       owner  => splunk,
       group  => splunk,
       mode   => '0755',
       content => template('splunk/appconf.erb');
-   "${basepath}/apps/puppet_${name}/default/inputs.conf":
+   "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
      ensure => $ensure,
      owner  => splunk,
-     gorup  => splunk,
+     group  => splunk,
      mode   => '0755',
      content => template('splunk/inputsconf.erb');
   }

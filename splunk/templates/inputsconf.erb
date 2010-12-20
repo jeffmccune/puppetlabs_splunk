@@ -3,6 +3,9 @@
 #
 # Creates an input to be indexed.
 
-[monitor://<%= targets %>]
+<% target.each do |file| %>
+<%= "[monitor://#{file}]" %>
 index=default
 disabled=0
+
+<% end %>
