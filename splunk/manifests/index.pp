@@ -15,10 +15,13 @@
 #
 define splunk::index(
   $target,
-  $enable   = true,
-  $index    = 'default',
-  $ensure   = present,
-  $basepath = $splunk::users::home
+  $enable    = true,
+  $index     = 'default',
+  $ensure    = present,
+  $basepath  = $splunk::users::home
+  $forwarder = 'false',
+  $port      = '',
+  $receiver  = 'false'
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -27,6 +30,18 @@ define splunk::index(
 
   if ! ($enable == true or $enable == false) {
     fail("enable must be true or false")
+  }
+
+  if ! ($forwarder == true or $forwarder == false) {
+    fail("forwarder must be true or false")
+  }
+
+  if ! ($receiver == true or $reveiver == false) {
+    fail("receiver must be true or false")
+  }
+
+  if ($receiver == true or $forwarder == true and $port == '') {
+    fail("must set a port if receiver or forwarder is set to true")
   }
 
   file {
