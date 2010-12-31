@@ -3,12 +3,12 @@
 #
 # Creates an input to be indexed.
 
-<% target.each do |file| %>
+<% target.each do |file| -%>
 <%= "[monitor://#{file}]" %>
 index=default
 disabled=0
 
-<% end %>
-<% if receiver == true %>
+<% end -%>
+<% if receiver == true -%>
 <%= "[splunktcp://#{port}]" %>
-<% end %>
+<% end -%>
