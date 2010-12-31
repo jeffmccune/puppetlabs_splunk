@@ -36,7 +36,7 @@ define splunk::index(
     fail("forwarder must be true or false")
   }
 
-  if ! ($receiver == true or $reveiver == false) {
+  if ! ($receiver == true or $receiver == false) {
     fail("receiver must be true or false")
   }
 
