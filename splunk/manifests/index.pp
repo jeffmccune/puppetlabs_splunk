@@ -18,7 +18,7 @@ define splunk::index(
   $enable    = true,
   $index     = 'default',
   $ensure    = present,
-  $basepath  = $splunk::users::home
+  $basepath  = $splunk::users::home,
   $forwarder = false,
   $port      = '',
   $receiver  = false
