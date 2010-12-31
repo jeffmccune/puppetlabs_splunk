@@ -19,9 +19,9 @@ define splunk::index(
   $index     = 'default',
   $ensure    = present,
   $basepath  = $splunk::users::home
-  $forwarder = 'false',
+  $forwarder = false,
   $port      = '',
-  $receiver  = 'false'
+  $receiver  = false
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -40,7 +40,7 @@ define splunk::index(
     fail("receiver must be true or false")
   }
 
-  if ($receiver == true or $forwarder == true and $port == '') {
+  if (($receiver == true or $forwarder == true) and $port == '') {
     fail("must set a port if receiver or forwarder is set to true")
   }
 
@@ -55,19 +55,29 @@ define splunk::index(
       mode   => '0755',
   }
 
-  file {
-    "${basepath}/etc/apps/puppet_${name}/default/app.conf":
+  file { "${basepath}/etc/apps/puppet_${name}/default/app.conf":
       ensure => $ensure,
       owner  => splunk,
       group  => splunk,
       mode   => '0755',
-      content => template('splunk/appconf.erb');
-   "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
+      content => template('splunk/appconf.erb'),
+  }
+  file { "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
      ensure => $ensure,
      owner  => splunk,
      group  => splunk,
      mode   => '0755',
-     content => template('splunk/inputsconf.erb');
+     content => template('splunk/inputsconf.erb'),
+  }
+
+  if $forwarder {
+    file { "${basepath}/etc/apps/puppet_${name}/default/outputs.conf":
+      ensure => $ensure,
+      owner  => splunk,
+      group  => splunk,
+      mode   => '0755',
+      content => template('splunk/outputsconf.erb'),
+    }
   }
 
 }

@@ -9,3 +9,6 @@ index=default
 disabled=0
 
 <% end %>
+<% if receiver == true %>
+<%= "[splunktcp://#{port}]" %>
+<% end %>
