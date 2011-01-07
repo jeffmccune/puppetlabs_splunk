@@ -18,12 +18,13 @@
 #
 define splunk::inputs(
   $target,
-  $enable    = true,
   $index     = 'default',
+  $enable    = true,
   $ensure    = present,
-  $basepath  = $splunk::users::home,
+  $basepath  = '/var/lib/puppet/spool',
   $port      = '',
-  $receiver  = false
+  $receiver  = false,
+  $app       = ''
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -31,7 +32,7 @@ define splunk::inputs(
   }
 
   if ! ($enable == true or $enable == false) {
-    fail("enable must be true or false")
+    fail("enabled must be present or absent")
   }
 
   if ! ($receiver == true or $receiver == false) {
@@ -42,13 +43,26 @@ define splunk::inputs(
     fail("must set a port if receiver is set to true")
   }
 
-  require Splunk::app["puppet_${name}"]
+  if ($target != '' and $receiver == true) {
+    fail("you can not set a target and receiver to true")
 
-  file { "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
-     ensure => $ensure,
-     owner  => splunk,
-     group  => splunk,
-     mode   => '0755',
-     content => template('splunk/inputsconf.erb'),
+  if $target {
+    file { "${basepath}/splunk/${app}/00_${name}_targetfrag":
+       ensure  => $ensure,
+       owner   => splunk,
+       group   => splunk,
+       mode    => '0755',
+       content => template('splunk/targetfrag.erb'),
+    }
+  }
+
+  if $receiver {
+    file { "${basepath}/splunk/${app}/00_${name}_receiverfrag":
+       ensure  => $ensure,
+       owner   => splunk,
+       group   => splunk,
+       mode    => '0755',
+       content => template('splunk/receiverfrag.erb'),
+    }
   }
 }

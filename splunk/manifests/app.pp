@@ -4,7 +4,7 @@
 #   for the portion of Splunk being managed by Puppet.
 #
 #   Cody Herriges <cody@puppetlabs.com>
-#   2010-12-22
+#   2011-1-07
 #
 # Parameters:
 #
@@ -14,15 +14,10 @@
 #
 # Sample Usage:
 #
-define splunk::index(
-  $target,
+define splunk::app(
   $enable    = true,
-  $index     = 'default',
   $ensure    = present,
   $basepath  = $splunk::users::home,
-  $forwarder = false,
-  $port      = '',
-  $receiver  = false
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -31,18 +26,6 @@ define splunk::index(
 
   if ! ($enable == true or $enable == false) {
     fail("enable must be true or false")
-  }
-
-  if ! ($forwarder == true or $forwarder == false) {
-    fail("forwarder must be true or false")
-  }
-
-  if ! ($receiver == true or $receiver == false) {
-    fail("receiver must be true or false")
-  }
-
-  if (($receiver == true or $forwarder == true) and $port == '') {
-    fail("must set a port if receiver or forwarder is set to true")
   }
 
   file {
@@ -62,23 +45,6 @@ define splunk::index(
       group  => splunk,
       mode   => '0755',
       content => template('splunk/appconf.erb'),
-  }
-  file { "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
-     ensure => $ensure,
-     owner  => splunk,
-     group  => splunk,
-     mode   => '0755',
-     content => template('splunk/inputsconf.erb'),
-  }
-
-  if $forwarder {
-    file { "${basepath}/etc/apps/puppet_${name}/default/outputs.conf":
-      ensure => $ensure,
-      owner  => splunk,
-      group  => splunk,
-      mode   => '0755',
-      content => template('splunk/outputsconf.erb'),
-    }
   }
 
 }

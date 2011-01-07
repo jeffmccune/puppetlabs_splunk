@@ -1,4 +1,4 @@
-# Define: splunk::index
+# Define: splunk::outputs
 #
 #   Creates entries for Splunk to index for searching.
 #
@@ -13,15 +13,12 @@
 #
 # Sample Usage:
 #
-define splunk::index(
+define splunk::outputs(
   $target,
   $enable    = true,
-  $index     = 'default',
   $ensure    = present,
   $basepath  = $splunk::users::home,
-  $forwarder = false,
   $port      = '',
-  $receiver  = false
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
