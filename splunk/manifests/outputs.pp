@@ -1,9 +1,11 @@
 # Define: splunk::outputs
 #
-#   Creates entries for Splunk to index for searching.
+#   Generates output entries in outputs.conf
+#   which enables the forwarding of information
+#   from one machine to another.
 #
 #   Cody Herriges <cody@puppetlabs.com>
-#   2010-12-22
+#   2010-1-11
 #
 # Parameters:
 #

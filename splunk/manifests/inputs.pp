@@ -21,7 +21,7 @@ define splunk::inputs(
   $index     = 'default',
   $enable    = true,
   $ensure    = present,
-  $basepath  = '/var/lib/puppet/spool',
+  $basepath  = $splunk::basepath,
   $port      = '',
   $receiver  = false,
   $app       = ''
@@ -57,7 +57,7 @@ define splunk::inputs(
   }
 
   if $receiver {
-    file { "${basepath}/splunk/${app}/00_${name}_receiverfrag":
+    file { "${basepath}/splunk/${app}/01_${name}_receiverfrag":
        ensure  => $ensure,
        owner   => splunk,
        group   => splunk,

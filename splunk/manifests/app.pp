@@ -47,4 +47,15 @@ define splunk::app(
       content => template('splunk/appconf.erb'),
   }
 
+  file {
+    [
+      "${splunk::fragpath}/${name}",
+      "${splunk::fragpath}/${name}/inputs.d",
+      "${splunk::fragpath}/${name}/outputs.d",
+    ]:
+      ensure => directory,
+      owner  => root,
+      group  => root,
+      mode   => '0700',
+  }
 }

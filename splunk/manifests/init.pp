@@ -5,6 +5,7 @@
 #   This module manages and configures Splunk
 #
 #   Jeff McCune <jeff@puppetlabs.com>
+#   Cody Herriges <cody@puppetlabs.com>
 #
 #
 # Parameters:
@@ -16,14 +17,24 @@
 # Sample Usage:
 #
 class splunk(
-  $indexer     = false,
-  $forwarder   = false,
-  $search_head = false,
-  $software    = true
+  $fragbase = '/var/lib/puppet/spool'
   ) {
-  # statements
-  class { "splunk::users": }
-  if ($package) {
-    class { "${module_name}::package": }
+
+  $fragpath = "${fragbase}/slunk.d"
+
+  if ! defined File[$fragbase] {
+    file { $fragbase:
+      ensure => directory,
+      mode   => '0700',
+      owner  => 'root',
+      group  => 'root',
+    }
+  }
+
+  file { $fragpath:
+    ensure => directory,
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
   }
 }
