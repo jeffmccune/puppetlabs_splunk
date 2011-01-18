@@ -29,7 +29,6 @@ class splunk::app(
     fail("enable must be true or false")
   }
 
-  $appname_real = $appname
   $apppath = "${basepath}/etc/apps/${appname}"
 
   file {
