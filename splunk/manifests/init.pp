@@ -51,7 +51,7 @@ class splunk(
       "${fragpath}/outputs.d/00-header-frag",
     ]:
       content => '# This file is managed by puppet and will be overwritten\n',
-      before  => [ Exec['rebuild-inputs'], Exec['rebuild-outputs'] ],
+      before  => [ Exec['rebuild-inputs'], ],
   }
 
 }
