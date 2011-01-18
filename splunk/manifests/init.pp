@@ -22,7 +22,7 @@ class splunk(
 
   $fragpath = "${fragbase}/slunk.d"
 
-  if ! defined File[$fragbase] {
+  if ! defined(File[$fragbase]) {
     file { $fragbase:
       ensure => directory,
       mode   => '0700',
