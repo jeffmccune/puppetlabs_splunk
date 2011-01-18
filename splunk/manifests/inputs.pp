@@ -19,7 +19,7 @@ class splunk::inputs {
   exec { 'rebuild-inputs':
     command     => "/bin/cat ${splunk::fragpath}/inputs.d/* > ${splunk::app::apppath}/default/inputs.conf",
     refreshonly => true,
-    subscribe   => File["${splunk::fragpath}/inputs.d"],
+    subscribe   => [ File["${splunk::app::apppath}/default"], File["${splunk::fragpath}/inputs.d"], ],
   }
   file { "${splunk::app::apppath}/default/inputs.conf":
     mode    => '0644',
