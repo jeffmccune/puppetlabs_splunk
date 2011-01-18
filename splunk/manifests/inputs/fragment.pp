@@ -44,6 +44,7 @@ define splunk::inputs::fragment(
 
   if ($target != '' and $receiver == true) {
     fail("you can not set a target and receiver to true")
+  }
 
   if $target {
     file { "${splunk::fragpath}/inputs.d/01_${name}_targetfrag":
