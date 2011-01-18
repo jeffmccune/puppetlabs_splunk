@@ -17,7 +17,7 @@
 define splunk::app(
   $enable    = true,
   $ensure    = present,
-  $basepath  = $splunk::users::home,
+  $basepath  = $splunk::users::home
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
