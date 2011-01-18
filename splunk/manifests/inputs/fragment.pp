@@ -24,7 +24,7 @@ define splunk::inputs::fragment(
   $ensure    = present,
   $port      = '',
   $receiver  = false,
-  $app
+  $app       = $splunk::app::appname_real
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -47,7 +47,7 @@ define splunk::inputs::fragment(
     fail("you can not set a target and receiver to true")
 
   if $target {
-    file { "${splunk::fragpath}/${app}/00_${name}_targetfrag":
+    file { "${splunk::fragpath}/${app}/01_${name}_targetfrag":
        ensure  => $ensure,
        owner   => splunk,
        group   => splunk,
@@ -57,7 +57,7 @@ define splunk::inputs::fragment(
   }
 
   if $receiver {
-    file { "${splunk::fragpath}/${app}/01_${name}_receiverfrag":
+    file { "${splunk::fragpath}/${app}/02_${name}_receiverfrag":
        ensure  => $ensure,
        owner   => splunk,
        group   => splunk,
