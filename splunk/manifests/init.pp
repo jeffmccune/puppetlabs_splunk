@@ -20,7 +20,7 @@ class splunk(
   $fragbase = '/var/lib/puppet/spool'
   ) {
 
-  $fragpath = "${fragbase}/slunk.d"
+  $fragpath = "${fragbase}/splunk.d"
 
   if ! defined(File[$fragbase]) {
     file { $fragbase:
