@@ -9,3 +9,4 @@ class { "splunk::package":
 class { "splunk": }
 splunk::app { 'syslog':
     require => Class['splunk::package'],
+}
