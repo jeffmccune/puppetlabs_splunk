@@ -9,6 +9,9 @@ class { "splunk::package":
 class { "splunk": }
 class { "splunk::app": }
 class { "splunk::inputs": }
-splunk::inputs::fragment { 'messages':
-  target => '/var/log/message',
+splunk::inputs::fragment {
+  'messages':
+    target => '/var/log/message';
+  'boot':
+    target => '/var/log/boot.log',
 }
