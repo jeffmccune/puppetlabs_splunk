@@ -21,7 +21,7 @@ class splunk::inputs {
     refreshonly => true,
     subscribe   => File["${splunk::fragpath}/inputs.d"],
   }
-  file {"${splunk::app:apppath}/default/inputs.conf":
+  file { "${splunk::app::apppath}/default/inputs.conf":
     mode    => '0644',
     require => Exec['rebuild-inputs'],
   }
