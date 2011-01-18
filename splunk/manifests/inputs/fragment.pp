@@ -53,6 +53,7 @@ define splunk::inputs::fragment(
        group   => splunk,
        mode    => '0755',
        content => template('splunk/targetfrag.erb'),
+       notify  => Exec['rebuild-inputs'],
     }
   }
 
@@ -63,6 +64,7 @@ define splunk::inputs::fragment(
        group   => splunk,
        mode    => '0755',
        content => template('splunk/receiverfrag.erb'),
+       notify  => Exec['rebuild-inputs'],
     }
   }
 }
