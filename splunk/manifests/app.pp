@@ -14,10 +14,11 @@
 #
 # Sample Usage:
 #
-define splunk::app(
+class splunk::app(
   $enable    = true,
   $ensure    = present,
-  $basepath  = $splunk::users::home
+  $basepath  = $splunk::users::home,
+  $appname   = 'puppet_managed'
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -28,10 +29,12 @@ define splunk::app(
     fail("enable must be true or false")
   }
 
+  $apppath = "${basepath}/etc/apps/${appname}"
+
   file {
     [
-      "${basepath}/etc/apps/puppet_${name}",
-      "${basepath}/etc/apps/puppet_${name}/default",
+      "${apppath}",
+      "${apppath}/default",
     ]:
       ensure => directory,
       owner  => splunk,
@@ -39,23 +42,11 @@ define splunk::app(
       mode   => '0755',
   }
 
-  file { "${basepath}/etc/apps/puppet_${name}/default/app.conf":
+  file { "${apppath}/default/app.conf":
       ensure => $ensure,
       owner  => splunk,
       group  => splunk,
       mode   => '0755',
       content => template('splunk/appconf.erb'),
-  }
-
-  file {
-    [
-      "${splunk::fragpath}/${name}",
-      "${splunk::fragpath}/${name}/inputs.d",
-      "${splunk::fragpath}/${name}/outputs.d",
-    ]:
-      ensure => directory,
-      owner  => root,
-      group  => root,
-      mode   => '0700',
   }
 }

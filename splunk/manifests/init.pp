@@ -31,10 +31,17 @@ class splunk(
     }
   }
 
-  file { $fragpath:
-    ensure => directory,
-    mode   => '0700',
-    owner  => 'root',
-    group  => 'root',
+  file {
+    [
+      "${fragpath}",
+      "${fragpath}/inputs.d",
+      "${fragpath}/outputs.d",
+    ]:
+      ensure => directory,
+      owner  => root,
+      group  => root,
+      mode   => '0700',
+      purge   => true,
+      recurse => true,
   }
 }

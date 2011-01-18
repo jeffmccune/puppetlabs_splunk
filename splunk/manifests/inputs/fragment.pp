@@ -24,7 +24,7 @@ define splunk::inputs::fragment(
   $ensure    = present,
   $port      = '',
   $receiver  = false,
-  $app       = ''
+  $app
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
