@@ -16,5 +16,5 @@ splunk::inputs::fragment {
     target => '/var/log/boot.log',
 }
 splunk::inputs::fragment { '9999':
-  receiver = true,
+  receiver => true,
 }
