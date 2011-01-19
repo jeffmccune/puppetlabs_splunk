@@ -38,10 +38,8 @@ define splunk::inputs::fragment(
     fail("receiver must be true or false")
   }
 
-  if ($receiver == true and $port == '' and $name =~ /\d+/) {
-    $port = $name
-  } elsif ($receiver == true and $port == '' and $name =~ /\w+/) {
-    fail("if receiver is set to true, port must be set or have a numeric title")
+  if ($receiver == true and $port == '') {
+    fail("if receiver is set to true, you must set a port")
   }
 
   if ($target != '' and $receiver == true) {

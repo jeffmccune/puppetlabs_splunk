@@ -15,6 +15,7 @@ splunk::inputs::fragment {
   'boot':
     target => '/var/log/boot.log',
 }
-splunk::inputs::fragment { '9999':
+splunk::inputs::fragment { 'nosecure':
+  port     => '9999',
   receiver => true,
 }
