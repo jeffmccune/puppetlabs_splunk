@@ -40,7 +40,7 @@ define splunk::inputs::fragment(
 
   if ($receiver == true and $port == '' and $name =~ /\d+/) {
     $port = $name
-  elsif ($receiver == true and $port == '' and $name =~ /\w+/) {
+  } elsif ($receiver == true and $port == '' and $name =~ /\w+/) {
     fail("if receiver is set to true, port must be set or have a numeric title")
   }
 
@@ -64,7 +64,6 @@ define splunk::inputs::fragment(
   }
 
   if $receiver {
-
     file { "${splunk::fragpath}/inputs.d/02_${name}_receiverfrag":
        ensure  => $ensure,
        owner   => splunk,
