@@ -35,7 +35,7 @@ class splunk::package(
 
   # JJM FIXME, this needs to not assume RPM.
   if ($has_repo == false) {
-    $provider   = "rpm"
+    $provider   = "rpm",
     $pkg_source = "http://tia.cat.pdx.edu/${pkg_file}",
   } elsif ($has_repo == true) {
     $provider   = "yum"
