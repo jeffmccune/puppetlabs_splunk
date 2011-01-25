@@ -17,9 +17,9 @@
 #
 class splunk::package(
   $pkg_name   = "splunk",
-  $pkg_file   = "splunk-4.1.6-89596-linux-2.6-x86_64.rpm",
-  $version    = "4.1.6",
-  $has_repo   = false,
+  $pkg_base   = "",
+  $pkg_file   = "",
+  $has_repo   = true,
   $ensure     = "present"
 ) {
   # JJM Note, this should break out to platform specific
@@ -29,6 +29,10 @@ class splunk::package(
     fail("ensure param must be 'absent' or 'present'")
   }
 
+  if ($pkg_base == "" and $pkg_file == "" and $has_repo == false)
+    fail("if you have not put the splunk package in a repo you must provide a pkg_base location and a pkg_file name")
+  }
+
   # JJM Ideally, the customer would have a local yum repository,
   # but this is often not the case, so we need to install
   # from URL.
@@ -36,7 +40,7 @@ class splunk::package(
   # JJM FIXME, this needs to not assume RPM.
   if ($has_repo == false) {
     $provider   = "rpm"
-    $pkg_source = "http://tia.cat.pdx.edu/${pkg_file}"
+    $pkg_source = "${pkg_base}/${pkg_file}"
   } elsif ($has_repo == true) {
     $provider   = "yum"
     $pkg_source = undef
