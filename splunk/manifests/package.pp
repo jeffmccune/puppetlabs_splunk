@@ -29,7 +29,7 @@ class splunk::package(
     fail("ensure param must be 'absent' or 'present'")
   }
 
-  if ($pkg_base == "" and $pkg_file == "" and $has_repo == false)
+  if ($pkg_base == "" and $pkg_file == "" and $has_repo == false) {
     fail("if you have not put the splunk package in a repo you must provide a pkg_base location and a pkg_file name")
   }
 
