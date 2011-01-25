@@ -14,3 +14,4 @@ splunk::inputs::fragment {
   'yum':
     target => '/var/log/yum.log',
 }
+class { "splunk::outputs": }
