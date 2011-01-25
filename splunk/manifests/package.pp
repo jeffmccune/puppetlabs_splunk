@@ -36,7 +36,7 @@ class splunk::package(
   # JJM FIXME, this needs to not assume RPM.
   if ($has_repo == false) {
     $provider   = "rpm"
-    $pkg_source = "http://www.splunk.com/index.php/download_track?file=${version}/linux/${pkg_file}&ac=&wget=true&name=wget&typed=releases"
+    $pkg_source = "http://www.splunk.com/index.php/download_track?file=${version}/linux/${pkg_file}\&ac=\&wget=true\&name=wget\&typed=releases"
   } elsif ($has_repo == true) {
     $provider   = "yum"
     $pkg_source = undef
