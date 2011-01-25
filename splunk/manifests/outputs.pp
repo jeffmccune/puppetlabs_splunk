@@ -15,7 +15,7 @@
 #
 # Sample Usage:
 #
-class splunk::inputs {
+class splunk::outputs {
   exec { 'rebuild-outputs':
     command     => "/bin/cat ${splunk::fragpath}/outputs.d/* > ${splunk::app::apppath}/default/outputs.conf",
     refreshonly => true,
