@@ -19,7 +19,7 @@
 #
 define splunk::inputs::fragment(
   $target    = '',
-  $index     = 'default',
+  $index     = 'main',
   $enable    = true,
   $ensure    = present,
   $port      = '',
