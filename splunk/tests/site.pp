@@ -11,9 +11,9 @@ class { "splunk::app": }
 class { "splunk::inputs": }
 splunk::inputs::fragment {
   'messages':
-    target => '/var/log/message';
+    target => '/var/log/messages';
   'boot':
-    target => '/var/log/boot.log',
+    target => '/var/log/maillog',
 }
 splunk::inputs::fragment { 'nosecure':
   port     => '9999',
