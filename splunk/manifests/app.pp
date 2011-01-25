@@ -46,7 +46,7 @@ class splunk::app(
       ensure => $ensure,
       owner  => splunk,
       group  => splunk,
-      mode   => '0755',
+      mode   => '0644',
       content => template('splunk/appconf.erb'),
   }
 }
