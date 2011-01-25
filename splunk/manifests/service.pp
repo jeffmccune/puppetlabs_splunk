@@ -27,7 +27,7 @@ class splunk::service(
 ) {
 
   exec { "boot_enable":
-    command => "${install_path}/splunk enable boot-start",
+    command => "${install_path}/splunk enable boot-start --accept-license",
     creates => "/etc/init.d/splunk",
     before  => Service["splunk"],
   }
