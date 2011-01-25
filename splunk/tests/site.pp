@@ -4,6 +4,8 @@ class { "splunk::users":
 
 class { "splunk::package": }
 
+class { "splunk::service": }
+
 class { "splunk": }
 class { "splunk::app": }
 class { "splunk::inputs": }
