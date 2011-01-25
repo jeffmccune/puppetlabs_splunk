@@ -29,6 +29,7 @@ class splunk::lwf(
       owner  => "splunk",
       group  => "splunk",
       mode   => "0755",
+      require => Package["splunk"],
   }
 
   file { "lwf_appconf":
@@ -36,6 +37,6 @@ class splunk::lwf(
       content => template("splunk/lwfappconf.erb"),
       owner  => "splunk",
       group  => "splunk",
-      mode   => "0644";
+      mode   => "0644",
   }
 }
