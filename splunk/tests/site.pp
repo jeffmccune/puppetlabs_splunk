@@ -12,7 +12,7 @@ class { "splunk::inputs": }
 splunk::inputs::fragment {
   'messages':
     target => '/var/log/messages';
-  'boot':
+  'maillog':
     target => '/var/log/maillog',
 }
 splunk::inputs::fragment { 'nosecure':
