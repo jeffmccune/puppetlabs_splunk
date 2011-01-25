@@ -24,5 +24,7 @@ class splunk::outputs {
   file { "${splunk::app::apppath}/default/outputs.conf":
     mode    => '0644',
     require => Exec['rebuild-outputs'],
+    owner   => "splunk",
+    group   => "splunk",
   }
 }

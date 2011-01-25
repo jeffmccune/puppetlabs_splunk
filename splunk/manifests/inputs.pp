@@ -24,5 +24,7 @@ class splunk::inputs {
   file { "${splunk::app::apppath}/default/inputs.conf":
     mode    => '0644',
     require => Exec['rebuild-inputs'],
+    owner   => "splunk",
+    group   => "splunk",
   }
 }
