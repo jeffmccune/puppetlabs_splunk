@@ -1,6 +1,6 @@
 
 <%= "[tcpout-server://#{name}:#{port}]" %>
 disabled = <%= if enable == true
-  then "0"
-  else "1"
+  then "false"
+  else "true"
 end %>
