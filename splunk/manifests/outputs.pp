@@ -16,8 +16,8 @@
 # Sample Usage:
 #
 class splunk::outputs(
-  compress    = false,
-  loadbalance = false
+  $compress    = false,
+  $loadbalance = false
 ) {
   exec { 'rebuild-outputs':
     command     => "/bin/cat ${splunk::fragpath}/outputs.d/* > ${splunk::app::apppath}/default/outputs.conf",
