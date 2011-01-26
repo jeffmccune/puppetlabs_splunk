@@ -24,7 +24,8 @@ define splunk::inputs::receiver(
   $enable    = true,
   $ensure    = present,
   $port,
-  $receiver  = false
+  $receiver  = false,
+  $app_id     = "puppet_managed"
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -39,8 +40,10 @@ define splunk::inputs::receiver(
     fail("receiver must be true or false")
   }
 
-  splunk::fragment { "02_${name}_receiverfrag":
+  splunk::fragment { "02_receiverfrag_${name}":
     content     => template('splunk/receiverfrag.erb'),
-    config_file => "inputs",
+    fragment_id => "02_recieverfrag_${name}",
+    app_id      => $app_id,
+    config_id   => "inputs",
   }
 }

@@ -1,4 +1,4 @@
-# Define: splunk::inputs::fragment
+# Define: splunk::fragment
 #
 #   Creates framents that become entries in
 #   inputs.conf as part of the Splunk App
@@ -18,15 +18,12 @@
 # Sample Usage:
 #
 
-# Split fragment defines into high and low level.
-
-define splunk::inputs::fragment(
-  $target    = '',
-  $index     = 'main',
-  $enable    = true,
-  $ensure    = present,
-  $port      = '',
-  $receiver  = false
+define splunk::fragment(
+  $ensure = 'present',
+  $config_id,
+  $app_id,
+  $fragment_id = '',
+  $content,
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -37,41 +34,21 @@ define splunk::inputs::fragment(
     fail("enabled must be present or absent")
   }
 
-  if ! ($receiver == true or $receiver == false) {
-    fail("receiver must be true or false")
+  # Need to modify app.pp to set up app specific
+  # fragent directories to support this new pattern.
+
+  if ($fragment_id == '') {
+    $fragment_id_real = $name
+  } else {
+    $fragment_id_real = $fragment_id
   }
 
-  if ($receiver == true and $port == '') {
-    fail("if receiver is set to true, you must set a port")
-  }
-
-  if ($target != '' and $receiver == true) {
-    fail("you can not set a target and receiver to true")
-  }
-
-  if ($target == '' and $receiver == false) {
-    file("you must have a target set if your not a receiver")
-  }
-
-  if $target {
-    file { "${splunk::fragpath}/inputs.d/01_${name}_targetfrag":
-       ensure  => $ensure,
-       owner   => splunk,
-       group   => splunk,
-       mode    => '0644',
-       content => template('splunk/targetfrag.erb'),
-       notify  => Exec['rebuild-inputs'],
-    }
-  }
-
-  if $receiver {
-    file { "${splunk::fragpath}/inputs.d/02_${name}_receiverfrag":
-       ensure  => $ensure,
-       owner   => splunk,
-       group   => splunk,
-       mode    => '0644',
-       content => template('splunk/receiverfrag.erb'),
-       notify  => Exec['rebuild-inputs'],
-    }
+  file { "${splunk::fragpath}/${app_id}/${config_id}.d/${fragment_id_real}":
+    ensure  => $ensure,
+    owner   => splunk,
+    group   => splunk,
+    mode    => '0644',
+    content => $content,
+    notify  => Exec["rebuild_${app_id}_${config_id}"],
   }
 }
