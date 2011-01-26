@@ -1,7 +1,7 @@
 Puppet module to Manage Splunk
 
-Jeff McCune <jeff@puppetlabs.com> 2010-12-10
-Cody Herriges <cody@puppetlabs.com> 2011-01-25
+ * Jeff McCune <jeff@puppetlabs.com> 2010-12-10
+ * Cody Herriges <cody@puppetlabs.com> 2011-01-25
 
 Overview
 ========
