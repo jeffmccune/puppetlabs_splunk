@@ -1,0 +1,14 @@
+# This file is managed by puppet and will be overwritten
+
+[tcpout]
+defaultGroup=puppet_managed_indexers
+
+[tcpout:puppet_managed_indexers]
+compressed = <%= if compress == true
+  then "true"
+  else "false"
+end %>
+autoLB = <%= if loadbalance == true
+  then "true"
+  else "false"
+end %>

@@ -15,16 +15,26 @@
 #
 # Sample Usage:
 #
-class splunk::outputs {
+class splunk::outputs(
+  compress    = false,
+  loadbalance = false
+) {
   exec { 'rebuild-outputs':
     command     => "/bin/cat ${splunk::fragpath}/outputs.d/* > ${splunk::app::apppath}/default/outputs.conf",
     refreshonly => true,
     subscribe   => [ File["${splunk::app::apppath}/default"], File["${splunk::fragpath}/outputs.d"], ],
   }
+
   file { "${splunk::app::apppath}/default/outputs.conf":
     mode    => '0644',
     require => Exec['rebuild-outputs'],
     owner   => "splunk",
     group   => "splunk",
+  }
+
+  file {
+    "${splunk::fragpath}/outputs.d/00-header-frag":
+      content => template("splunk/outputhead.erb")
+      notify  => [ Exec['rebuild-outputs'],
   }
 }

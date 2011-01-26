@@ -16,11 +16,9 @@
 # Sample Usage:
 #
 define splunk::outputs::fragment(
-  $target,
   $enable    = true,
   $ensure    = present,
-  $basepath  = $splunk::users::home,
-  $port      = '',
+  $port
   ) {
 
   if ! ($ensure == 'present' or $ensure == 'absent') {
@@ -28,55 +26,15 @@ define splunk::outputs::fragment(
   }
 
   if ! ($enable == true or $enable == false) {
-    fail("enable must be true or false")
+    fail("enabled must be present or absent")
   }
 
-  if ! ($forwarder == true or $forwarder == false) {
-    fail("forwarder must be true or false")
+  file { "${splunk::fragpath}/outputs.d/01_${name}_outputfrag":
+    ensure  => $ensure,
+    owner   => splunk,
+    group   => splunk,
+    mode    => '0644',
+    content => template('splunk/outputfrag.erb'),
+    notify  => Exec['rebuild-outputs'],
   }
-
-  if ! ($receiver == true or $receiver == false) {
-    fail("receiver must be true or false")
-  }
-
-  if (($receiver == true or $forwarder == true) and $port == '') {
-    fail("must set a port if receiver or forwarder is set to true")
-  }
-
-  file {
-    [
-      "${basepath}/etc/apps/puppet_${name}",
-      "${basepath}/etc/apps/puppet_${name}/default",
-    ]:
-      ensure => directory,
-      owner  => splunk,
-      group  => splunk,
-      mode   => '0755',
-  }
-
-  file { "${basepath}/etc/apps/puppet_${name}/default/app.conf":
-      ensure => $ensure,
-      owner  => splunk,
-      group  => splunk,
-      mode   => '0755',
-      content => template('splunk/appconf.erb'),
-  }
-  file { "${basepath}/etc/apps/puppet_${name}/default/inputs.conf":
-     ensure => $ensure,
-     owner  => splunk,
-     group  => splunk,
-     mode   => '0755',
-     content => template('splunk/inputsconf.erb'),
-  }
-
-  if $forwarder {
-    file { "${basepath}/etc/apps/puppet_${name}/default/outputs.conf":
-      ensure => $ensure,
-      owner  => splunk,
-      group  => splunk,
-      mode   => '0755',
-      content => template('splunk/outputsconf.erb'),
-    }
-  }
-
 }

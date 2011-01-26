@@ -45,13 +45,4 @@ class splunk(
       recurse => true,
   }
 
-  file {
-    [
-      "${fragpath}/inputs.d/00-header-frag",
-      "${fragpath}/outputs.d/00-header-frag",
-    ]:
-      content => "# This file is managed by puppet and will be overwritten\n",
-      notify  => [ Exec['rebuild-inputs'], ],
-  }
-
 }

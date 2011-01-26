@@ -21,10 +21,16 @@ class splunk::inputs {
     refreshonly => true,
     subscribe   => [ File["${splunk::app::apppath}/default"], File["${splunk::fragpath}/inputs.d"], ],
   }
+
   file { "${splunk::app::apppath}/default/inputs.conf":
     mode    => '0644',
     require => Exec['rebuild-inputs'],
     owner   => "splunk",
     group   => "splunk",
+  }
+
+  file { "${splunk::fragpath}/inputs.d/00-header-frag":
+      content => "# This file is managed by puppet and will be overwritten\n",
+      notify  => Exec['rebuild-inputs'],
   }
 }
