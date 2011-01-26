@@ -16,21 +16,19 @@
 # Sample Usage:
 #
 class splunk::inputs {
-  exec { 'rebuild-inputs':
-    command     => "/bin/cat ${splunk::fragpath}/inputs.d/* > ${splunk::app::apppath}/default/inputs.conf",
-    refreshonly => true,
-    subscribe   => [ File["${splunk::app::apppath}/default"], File["${splunk::fragpath}/inputs.d"], ],
+
+  splunk::fragment { "00_header":
+		content   => "# This file is managed by puppet and will be overwritten\n",
+		config_id => "inputs",
+		app_id    => "puppet_managed",
   }
 
   file { "${splunk::app::apppath}/default/inputs.conf":
     mode    => '0644',
-    require => Exec['rebuild-inputs'],
     owner   => "splunk",
     group   => "splunk",
-  }
+    require => File["${splunk::fragpath}/puppet_managed/inputs"],
+    notify  => Service["splunk"],
+	}
 
-  file { "${splunk::fragpath}/inputs.d/00-header-frag":
-      content => "# This file is managed by puppet and will be overwritten\n",
-      notify  => Exec['rebuild-inputs'],
-  }
 }
