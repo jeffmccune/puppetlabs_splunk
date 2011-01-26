@@ -34,7 +34,7 @@ class splunk::outputs(
 
   file {
     "${splunk::fragpath}/outputs.d/00-header-frag":
-      content => template("splunk/outputhead.erb")
+      content => template("splunk/outputhead.erb"),
       notify  => Exec['rebuild-outputs'],
   }
 }
