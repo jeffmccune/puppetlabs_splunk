@@ -15,6 +15,8 @@ splunk::inputs::fragment {
   'maillog':
     target => '/var/log/maillog',
 }
+# Needs documentation or receivers and
+# targets could be different defines.
 splunk::inputs::fragment { 'nosecure':
   port     => '9999',
   receiver => true,

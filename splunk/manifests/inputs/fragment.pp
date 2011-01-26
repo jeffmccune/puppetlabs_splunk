@@ -17,6 +17,9 @@
 #
 # Sample Usage:
 #
+
+# Split fragment defines into high and low level.
+
 define splunk::inputs::fragment(
   $target    = '',
   $index     = 'main',

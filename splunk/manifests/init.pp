@@ -22,6 +22,9 @@ class splunk(
 
   $fragpath = "${fragbase}/splunk.d"
 
+  # We will create a module for fragment
+  # directories.
+
   if ! defined(File[$fragbase]) {
     file { $fragbase:
       ensure => directory,

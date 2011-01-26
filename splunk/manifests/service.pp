@@ -26,10 +26,13 @@ class splunk::service(
   $install_path = "/opt/splunk/bin"
 ) {
 
+  # Dependancies based on class.
+
   exec { "boot_enable":
     command => "${install_path}/splunk enable boot-start --accept-license",
     creates => "/etc/init.d/splunk",
     before  => Service["splunk"],
+    require => Class["splunk::package"],
   }
 
   service { "splunk":
